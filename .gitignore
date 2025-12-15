@@ -1,6 +1,7 @@
 utils/slack_notifier.py
 notebooks/secrets.json
 notebooks/pkl
-notebooks/pkl_nasdaq
-notebooks/pkl_nyse
-notebooks/yf_chunk_all.pkl
+notebooks2/pkl_nasdaq
+notebooks2/pkl_nyse
+notebooks2/yf_chunk_all.pkl
+notebooks2/bs_fin.pickle

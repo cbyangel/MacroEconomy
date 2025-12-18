@@ -35,6 +35,7 @@ def get_data_from_yf(list_tickers, where):
                     info = tkr.info
                     cashflow = tkr.quarterly_cashflow.T
                     incomestmt = tkr.quarterly_income_stmt.T
+                    history = tkr.history(period="1y", interval="1d")
 
                     chunk_data[ticker] = {
                         'balance_sheet': balance_sheet,
@@ -42,7 +43,8 @@ def get_data_from_yf(list_tickers, where):
                         'dividends': dividends,
                         'cashflow' : cashflow,
                         'incomestmt' : incomestmt,
-                        'info': info
+                        'info': info,
+                        'history': history
                     }
                     break
                 except Exception as e:
@@ -116,8 +118,6 @@ def calc_indicator(dict_us_stocks, list_tickers, str_type, return_df=False):
         dividend_rate = info.get('dividendRate', 0)     ## 연간배당금 총액
         dividend_yield = info.get('dividendYield', 0)   ## 배당수익률 (배당률)
         payoutRatio = info.get('payoutRatio', 0)        ## 배당성향
-        # enterpriseToEbitda = info.get('enterpriseToEbitda', 0)
-        # freecashflow = info.get('freeCashflow', 0)
         currentPrice = info.get('currentPrice', 0)
         sector = info.get('sector', '')
         industry = info.get('industry', '')
@@ -406,12 +406,5 @@ if __name__ == "__main__":
     df_bs_fin_report = pd.DataFrame(dict_bs_fin_tickers_report)
     df_bs_fin_report['per'] = df_bs_fin_report['per'].astype(float)
     df_bs_fin_report.to_pickle('bs_fin.pickle')
-    # df_final = df_bs_fin_report[(df_bs_fin_report['is_eps_inc'] == True)  & (df_bs_fin_report['is_revenue_inc'] == True) & (df_bs_fin_report['is_net_income_inc'] == True)
-    #              & (df_bs_fin_report['is_share_reduced'] == True)
-    #            # & (df_bs_fin_report['is_debt_inc'] == False) & (df_bs_fin_report['is_debt_short_inc'] == False)
-    #            #  & (df_bs_fin_report['is_ok_payables'] == True) & (df_bs_fin_report['is_ok_tax'] == True)
-    #              & (df_bs_fin_report['net(%)'] > 20)].sort_values(by=['market_cap', 'op(%)', 'net(%)'], ascending=False)
-    #
-    #
-    # df_final.to_csv('bs_fin_report.csv', index=False)
+
 
